@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6) Username Validation (Regex, no special chars)</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    input { padding: 10px; border:1px solid #ccc; border-radius:8px; }
+    .error { color: red; margin-top: 6px; }
+    .ok { color: green; margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <h2>6) Username Validation (3–16 characters, only letters, numbers, underscore)</h2>
+
+  <form id="uForm">
+    <input id="u" placeholder="username_123">
+    <button type="submit">Submit</button>
+  </form>
+  <div id="msg"></div>
+
+  <script>
+    const form = document.getElementById('uForm');
+    const u = document.getElementById('u');
+    const msg = document.getElementById('msg');
+
+    
+    const regex = /^[a-zA-Z0-9_]{3,16}$/;
+
+    form.addEventListener('submit', (e) => {
+      const v = u.value.trim();
+      if (!regex.test(v)) {
+        e.preventDefault();
+        msg.textContent = '❌ Invalid username. Use 3–16 letters, numbers, or underscores only.';
+        msg.className = 'error';
+      } else {
+        e.preventDefault();
+        msg.textContent = '✔ Valid username';
+        msg.className = 'ok';
+      }
+    });
+  </script>
+</body>
+</html>

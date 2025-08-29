@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>9) Dynamic Country Dropdown by Continent</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    select { padding: 10px; border:1px solid #ccc; border-radius:8px; margin-right: 8px; }
+  </style>
+</head>
+<body>
+  <h2>9) Cascading Dropdowns (Continent → Country)</h2>
+
+  <label for="continent">Continent:</label>
+  <select id="continent">
+    <option value="">-- Select Continent --</option>
+    <option>Africa</option>
+    <option>Asia</option>
+    <option>Europe</option>
+    <option>North America</option>
+    <option>South America</option>
+    <option>Oceania</option>
+  </select>
+
+  <label for="country">Country:</label>
+  <select id="country">
+    <option value="">-- Select Continent First --</option>
+  </select>
+
+  <script>
+    const data = {
+      "Africa": ["Nigeria","Egypt","Kenya","South Africa"],
+      "Asia": ["India","China","Japan","Indonesia"],
+      "Europe": ["Germany","France","Italy","Spain"],
+      "North America": ["United States","Canada","Mexico","Cuba"],
+      "South America": ["Brazil","Argentina","Chile","Peru"],
+      "Oceania": ["Australia","New Zealand","Fiji","Papua New Guinea"]
+    };
+
+    const continent = document.getElementById('continent');
+    const country = document.getElementById('country');
+
+    continent.addEventListener('change', () => {
+      const list = data[continent.value] || [];
+      country.innerHTML = list.length 
+        ? '<option value="">-- Select Country --</option>' 
+        : '<option value="">-- Select Continent First --</option>';
+      list.forEach(c => {
+        const opt = document.createElement('option');
+        opt.textContent = c;
+        opt.value = c;
+        country.appendChild(opt);
+      });
+    });
+  </script>
+</body>
+</html>

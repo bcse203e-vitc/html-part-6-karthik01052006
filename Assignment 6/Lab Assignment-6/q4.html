@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4) Dynamic Hobbies Input Fields</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    .hobby { margin-bottom: 10px; }
+    input { padding: 10px; border:1px solid #ccc; border-radius:8px; width: 260px; }
+    .error { color: red; font-size: 0.9em; margin-left: 8px; }
+    button { padding: 8px 12px; border:none; border-radius:8px; cursor:pointer; background:#007BFF; color:white; }
+    .wrap { max-width: 520px; }
+  </style>
+</head>
+<body>
+  <h2>4) Dynamic Hobbies Input Fields</h2>
+  <div class="wrap">
+    <div id="hobbies"></div>
+    <button id="addBtn" type="button">Add Hobby</button>
+  </div>
+
+  <script>
+    const container = document.getElementById('hobbies');
+    const addBtn = document.getElementById('addBtn');
+    const regex = /^[A-Za-z\s]+$/;  
+    function addHobbyField() {
+      const idx = container.children.length + 1;
+      const wrapper = document.createElement('div');
+      wrapper.className = 'hobby';
+      wrapper.innerHTML = `
+        <label>Hobby ${idx}: </label>
+        <input type="text" placeholder="e.g., Reading"/>
+        <span class="error"></span>
+      `;
+      const input = wrapper.querySelector('input');
+      const err = wrapper.querySelector('.error');
+
+      input.addEventListener('input', () => {
+        const v = input.value.trim();
+        if (!v) { err.textContent = ''; return; }
+        if (regex.test(v)) { err.textContent = ''; }
+        else { err.textContent = 'Only letters and spaces allowed.'; }
+      });
+
+      container.appendChild(wrapper);
+    }
+
+    addBtn.addEventListener('click', addHobbyField);
+
+    
+    addHobbyField();
+  </script>
+</body>
+</html>

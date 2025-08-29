@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>8) Hex Color Validation with Live Preview</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    input { padding: 10px; border:1px solid #ccc; border-radius:8px; width: 160px; }
+    .box { display:inline-block; width: 48px; height: 32px; border:1px solid #ccc; border-radius:6px; vertical-align: middle; margin-left: 8px; }
+    .error { color: red; margin-top: 6px; }
+    .ok { color: green; margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <h2>8) Hexadecimal Color Code Validation with Live Preview</h2>
+
+  <label for="c">Color (#FFF or #FFFFFF):</label>
+  <input id="c" placeholder="#3498db">
+  <span id="preview" class="box"></span>
+  <div id="msg"></div>
+
+  <script>
+    const c = document.getElementById('c');
+    const preview = document.getElementById('preview');
+    const msg = document.getElementById('msg');
+
+    
+    const regex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+
+    c.addEventListener('input', () => {
+      const v = c.value.trim();
+      if (!v) {
+        msg.textContent = '';
+        preview.style.background = 'transparent';
+        return;
+      }
+      if (regex.test(v)) {
+        msg.textContent = '✔ Valid color';
+        msg.className = 'ok';
+        preview.style.background = v;
+      } else {
+        msg.textContent = '❌ Invalid hex color';
+        msg.className = 'error';
+        preview.style.background = 'transparent';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5) Password & Confirm Password Matching</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    input { padding: 10px; border:1px solid #ccc; border-radius:8px; }
+    .ok { color: green; }
+    .error { color: red; }
+    .row { margin-bottom: 12px; display: grid; gap: 6px; max-width: 360px; }
+  </style>
+</head>
+<body>
+  <h2>5) Password & Confirm Password (Real-time Match)</h2>
+
+  <div class="row">
+    <label for="p1">Password</label>
+    <input id="p1" type="password" placeholder="Enter password">
+  </div>
+
+  <div class="row">
+    <label for="p2">Confirm Password</label>
+    <input id="p2" type="password" placeholder="Re-enter password">
+    <small id="msg"></small>
+  </div>
+
+  <script>
+    const p1 = document.getElementById('p1');
+    const p2 = document.getElementById('p2');
+    const msg = document.getElementById('msg');
+
+    function checkMatch() {
+      const a = p1.value;
+      const b = p2.value;
+
+      if (!a && !b) { 
+        msg.textContent = ''; 
+        msg.className = ''; 
+        return; 
+      }
+      if (a === b) { 
+        msg.textContent = 'Passwords match ✔'; 
+        msg.className = 'ok'; 
+      } else { 
+        msg.textContent = 'Passwords do not match ✖'; 
+        msg.className = 'error'; 
+      }
+    }
+
+    p1.addEventListener('input', checkMatch);
+    p2.addEventListener('input', checkMatch);
+  </script>
+</body>
+</html>

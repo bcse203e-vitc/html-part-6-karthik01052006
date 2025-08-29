@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>10) Dynamic Form Builder UI</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    select, input, button { padding: 10px; border:1px solid #ccc; border-radius:8px; }
+    button { cursor:pointer; background:#007BFF; color:white; }
+    .row { display:flex; gap: 8px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+    .field { margin-bottom: 12px; display: grid; gap: 6px; }
+    .field input { width: 320px; }
+    .error { color:red; }
+    .ok { color:green; }
+  </style>
+</head>
+<body>
+  <h2>10) Dynamic Form Builder</h2>
+
+  <div class="row">
+    <label for="type">Input type:</label>
+    <select id="type">
+      <option value="text">Text</option>
+      <option value="email">Email</option>
+      <option value="password">Password</option>
+    </select>
+    <input id="label" placeholder="Label (e.g., Full Name)">
+    <button id="add" type="button">Add Field</button>
+  </div>
+
+  <form id="form" novalidate></form>
+
+  <div class="row">
+    <button id="submit" type="button">Validate All</button>
+    <span id="summary"></span>
+  </div>
+
+  <script>
+    const form = document.getElementById('form');
+    const addBtn = document.getElementById('add');
+    const typeSel = document.getElementById('type');
+    const labelInput = document.getElementById('label');
+    const submitBtn = document.getElementById('submit');
+    const summary = document.getElementById('summary');
+
+    const validators = {
+      text: v => /^[\\w\\s\\-\\.]{1,}$/.test(v),       
+      email: v => /^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(v), 
+      password: v => /^(?=.*[A-Z])(?=.*\\d).{8,}$/.test(v)  
+    };
+
+    function addField(type, label) {
+      const id = 'f' + Math.random().toString(36).slice(2, 8);
+      const wrap = document.createElement('div');
+      wrap.className = 'field';
+      wrap.innerHTML = `
+        <label for="${id}">${label} (${type})</label>
+        <input id="${id}" type="${type}" placeholder="${label}">
+        <small class="msg"></small>
+      `;
+      const input = wrap.querySelector('input');
+      const msg = wrap.querySelector('.msg');
+      input.dataset.type = type;
+
+      input.addEventListener('input', () => {
+        const v = input.value.trim();
+        if (!v) { msg.textContent=''; msg.className=''; return; }
+        const ok = validators[type](v);
+        msg.textContent = ok ? '✔ OK' : '❌ Invalid';
+        msg.className = ok ? 'ok' : 'error';
+      });
+
+      form.appendChild(wrap);
+    }
+
+    addBtn.addEventListener('click', () => {
+      const t = typeSel.value;
+      const lbl = labelInput.value.trim() || 'Field';
+      addField(t, lbl);
+      labelInput.value = '';
+    });
+
+    submitBtn.addEventListener('click', () => {
+      const inputs = form.querySelectorAll('input');
+      let allOk = true;
+      inputs.forEach(input => {
+        const type = input.dataset.type;
+        const v = input.value.trim();
+        const msg = input.parentElement.querySelector('.msg');
+        const ok = validators[type](v);
+        if (!ok) { allOk = false; msg.textContent='❌ Invalid'; msg.className='error'; }
+        else { msg.textContent='✔ OK'; msg.className='ok'; }
+      });
+      summary.textContent = allOk ? 'All inputs valid ✔' : 'Some inputs are invalid ✖';
+      summary.className = allOk ? 'ok' : 'error';
+    });
+  </script>
+</body>
+</html>

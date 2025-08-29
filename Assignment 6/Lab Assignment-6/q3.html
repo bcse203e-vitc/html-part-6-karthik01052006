@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3) Dynamic Phone Number Validation</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    input { padding: 10px; border:1px solid #ccc; border-radius:8px; width: 240px; }
+    .ok { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <h2>3) Phone Number Validation (live)</h2>
+  <p>Valid formats: <code>(123) 456-7890</code> or <code>123-456-7890</code></p>
+
+  <input id="phone" placeholder="(123) 456-7890 or 123-456-7890">
+  <div id="status"></div>
+
+  <script>
+    const phone = document.getElementById('phone');
+    const statusEl = document.getElementById('status');
+
+    const regex = /^(\(\d{3}\)\s?\d{3}-\d{4}|\d{3}-\d{3}-\d{4})$/;
+
+    phone.addEventListener('input', () => {
+      const v = phone.value.trim();
+      if (!v) { 
+        statusEl.textContent = ''; 
+        return; 
+      }
+      if (regex.test(v)) { 
+        statusEl.textContent = 'Valid phone ✔'; 
+        statusEl.className = 'ok'; 
+      } else { 
+        statusEl.textContent = 'Invalid phone ✖'; 
+        statusEl.className = 'error'; 
+      }
+    });
+  </script>
+</body>
+</html>
